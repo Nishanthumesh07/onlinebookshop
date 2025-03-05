@@ -1,0 +1,80 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% load customfunction %}
+{% load crispy_forms_tags %}
+
+{% block container %}
+<div class="row">
+    <div class="col-md-8 order-md-1 cart_info">
+        <h4 class="mb-3 mt-3">Shipping Address</h4>
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <form action="" method="POST" class="needs-validation" novalidate="">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="{{ form.name.id_for_label }}">Name:</label>
+                    {{ form.name }}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="{{ form.email.id_for_label }}">Email:</label>
+                    {{ form.email }}
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="{{ form.phone.id_for_label }}">Phone:</label>
+                {{ form.phone }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ form.address.id_for_label }}">Address:</label>
+                {{ form.address }}
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="{{ form.division.id_for_label }}">Division:</label>
+                    {{ form.division }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="{{ form.district.id_for_label }}">District:</label>
+                    {{ form.district }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="{{ form.zip_code.id_for_label }}">ZIP Code:</label>
+                    {{ form.zip_code }}
+                </div>
+            </div>
+            <hr class="mb-4">
+            <div class="d-block my-3">
+                <label for="{{ form.payment_method.id_for_label }}">Payment Method:</label>
+                {{ form.payment_method }}
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="{{ form.account_no.id_for_label }}">Account Number:</label>
+                    {{ form.account_no }}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="{{ form.transaction_id.id_for_label }}">Transaction ID:</label>
+                    {{ form.transaction_id }}
+                </div>
+            </div>
+            <hr class="mb-4">
+            <button class="btn btn-warning btn-block" type="submit" style="margin-bottom: 20px">Continue to checkout</button>
+        </form>
+    </div>
+    <div class="col-md-4 order-md-2 mb-4">
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center"><h4>Checkout Summary</h4></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Books<span>{{ cart|length }}</span></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Subtotal<span>{{ cart.get_total_price }} ₹.</span></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Shipping<span>{{ cost|shipping }} ₹.</span></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Payable Total<span>{{ cart.get_total_price|payabletotal }} ₹.</span></li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
